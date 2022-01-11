@@ -125,3 +125,89 @@ IP header
 
 Różnice między wiadomościami pojawiają się dopiero przy DHCP payload, dlatego tylko on zostanie omówiony w następnych rozdziałach.
 
+## DHCP_DISCOVER
+
+DHCP payload:
+
+```json
+{
+    clientMAC=<adres_mac_klienta_który_wysyła_wiadomość>
+}
+```
+
+### Przykład
+
+```jso
+{
+    clientMAC=21:37:69:42:00:69
+}
+```
+
+## DHCP_OFFER
+
+DHCP payload:
+
+```json
+{
+    yourIP=<ip_który_serwer_oferuje_klientowi>
+    clientMAC=<adres_mac_klienta_na_którego_DISCOVER_serwer_odpowiada>
+    subnetMask=<maska_podsieci> // skonfigurowana przez admina serwera
+    router=<adres_bramy_domyślnej> // skonfigurowany przez admina serwera
+    DNS=<lista_adresów_ip_serwerów_DNS> //konkatenacja za pomocą "&" // skonfigurowana przez admina serwera
+    IPLeaseTime=<czas_na_jaki_przydzielany_jest_adres_IP> // [s] // skonfigurowany przez admina serwera
+    DHCPServerIdentifier=<adres_IP_serwera_który_wysyła_wiadomość>
+}
+```
+
+### Przykład
+
+```json
+{
+    yourIP=10.0.0.10
+    clientMAC=21:37:69:42:00:69
+    subnetMask=255.255.255.0
+    router=10.0.0.1
+    DNS=10.0.0.200&8.8.8.8
+    IPLeaseTime=3600
+    DHCPServerIdentifier=10.0.0.253
+}
+```
+
+## DHCP_REQUEST
+
+DHCP payload:
+
+```json
+{
+    clientMAC=<adres_mac_klienta_który_wysyła_wiadomość>
+    requestedIPAddress=<adres_IP_otrzymany_jako_`yourIP`_w_OFFER>
+    DHCPServerIdentifier=<adres_IP_serwera_który_wysyłał_OFFER>
+}
+```
+
+### Przykład
+
+```json
+{
+    clientMAC=21:37:69:42:00:69
+    requestedIPAddress=10.0.0.10
+    DHCPServerIdentifier=10.0.0.253
+}
+```
+
+## DHCP_ACK / DHCP_NACK
+
+DHCP payload:
+
+```json
+{
+    yourIP=<ip_który_zostanie_przypisany_klientowi>
+    clientMAC=<adres_mac_klienta_na_którego_REQUEST_serwer_odpowiada>
+    subnetMask=<maska_podsieci> // skonfigurowana przez admina serwera
+    router=<adres_bramy_domyślnej> // skonfigurowany przez admina serwera
+    DNS=<lista_adresów_ip_serwerów_DNS> //konkatenacja za pomocą "&" // skonfigurowana przez admina serwera
+    IPLeaseTime=<czas_na_jaki_przydzielany_jest_adres_IP> // [s] // skonfigurowany przez admina serwera
+    DHCPServerIdentifier=<adres_IP_serwera_który_wysyła_wiadomość>
+}
+```
+
